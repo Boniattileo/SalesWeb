@@ -1,5 +1,7 @@
 ﻿using SalesWebMvc.Models;
 using SalesWebMvc.Data;
+using NuGet.Protocol.Plugins;
+using SalesWebMvc.Models.ViewModels;
 
 namespace SalesWebMvc.Services
 {
@@ -19,6 +21,7 @@ namespace SalesWebMvc.Services
 
         public void Insert(Seller obj) 
         {
+            obj.Department = _context.Department.FirstOrDefault(d => d.Id == obj.DepartmentId);
             _context.Add(obj);
             _context.SaveChanges();
         }
