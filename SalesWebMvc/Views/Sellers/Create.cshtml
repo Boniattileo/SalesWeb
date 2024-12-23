@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Seller.BirthDate" class="control-label"></label>
-                <input asp-for="Seller.BirthDate" class="form-control" type="date" />
+                <input asp-for="Seller.BirthDate" class="form-control"/>
             </div>
             <div class="form-group">
                 <label asp-for="Seller.Salary" class="control-label"></label>
@@ -32,7 +32,8 @@
                 <select asp-for="Seller.DepartmentId" asp-items="@(new SelectList(Model.Departments,"Id","Name"))" class="form-control"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-light" />
+                <input type="submit" value="Create" class="btn btn-dark" />
+                <a asp-action="Index" class="btn btn-default">Back to list</a>
             </div>
         </form>
     </div>
