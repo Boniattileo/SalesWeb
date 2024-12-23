@@ -24,7 +24,7 @@ namespace SalesWebMvc.Services
         public async Task InsertAsync(Seller obj)
         {
             var department = await _context.Department.FirstOrDefaultAsync(d => d.Id == obj.DepartmentId);
-            if (department == null) 
+            if (department == null)
             {
                 throw new NotFoundException("Department not found");
             }
@@ -48,14 +48,22 @@ namespace SalesWebMvc.Services
 
         public async Task RemoveAsync(int id)
         {
-            var obj = await _context.Seller.FindAsync(id);
-
-            if (obj != null)
+            try
             {
-                _context.Seller.Remove(obj);
-                await _context.SaveChangesAsync();
+                var obj = await _context.Seller.FindAsync(id);
+
+                if (obj != null)
+                {
+                    _context.Seller.Remove(obj);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException("Cannot delete this seller because he/she has sales");
             }
         }
+
 
         public async Task UpdateAsync(Seller obj)
         {
@@ -70,7 +78,7 @@ namespace SalesWebMvc.Services
                 _context.Update(obj);
                 await _context.SaveChangesAsync();
             }
-            catch (DbConcurrencyException e) 
+            catch (DbConcurrencyException e)
             {
                 throw new DbConcurrencyException(e.Message);
             }
